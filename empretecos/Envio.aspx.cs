@@ -37,7 +37,7 @@ namespace empretecos
                     foreach (System.IO.FileInfo arq in dirCliente.GetFiles())
                     {
 
-                        listaArq.Add(arq.Name);
+                        listaArq.Add(arq.Name + "-" + arq.CreationTime + "-" + arq.Length);
 
                     }
 
@@ -100,7 +100,7 @@ namespace empretecos
                         foreach (System.IO.FileInfo arq in dirCliente2.GetFiles())
                         {
 
-                            listaArq.Add(arq.Name);
+                            listaArq.Add(arq.Name+"-"+arq.CreationTime+"-"+arq.Length);
 
                         }
 
