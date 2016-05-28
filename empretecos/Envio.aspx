@@ -2,16 +2,17 @@
 <asp:Content ID="Content_envio_1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content_envio_2" ContentPlaceHolderID="erContentPlaceHolder1" runat="server">
-    
+    <br />
 <div align="center">
 </asp:Label><asp:FileUpload ID="FileUploadControl" runat="server"    /></div>
-
+<br />
   <div align="center">  <asp:Button ID="Button_upload" runat="server" Text="Upload" 
           onclick="Button_upload_Click" /> </div>
-
-          <div align="center">    <asp:GridView ID="GridView_arquivos" runat="server" 
+          <br />
+          <div align="center">    
+              <asp:GridView ID="GridView_arquivos" runat="server" 
                   BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" 
-                  CellPadding="4" ForeColor="Black" GridLines="Vertical">
+                  CellPadding="4" ForeColor="Black" GridLines="Vertical" AllowPaging="True">
               <AlternatingRowStyle BackColor="White" />
               <FooterStyle BackColor="#CCCC99" />
               <HeaderStyle BackColor="#6B696B" Font-Bold="True" ForeColor="White" />
@@ -23,7 +24,9 @@
               <SortedDescendingCellStyle BackColor="#EAEAD3" />
               <SortedDescendingHeaderStyle BackColor="#575357" />
                                     </asp:GridView>
+              <br />
     </div>
+    <br />
 
 <div align="center"><asp:Label ID="Label_result_upload" runat="server" Text=""></asp:Label></div>
 </asp:Content>
