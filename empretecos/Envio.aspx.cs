@@ -94,6 +94,14 @@ namespace empretecos
                         
                     }
 
+                    if (RadioButtonList_opcao.Items[1].Selected && TextBox_email.Text.IndexOf("@") < 1)
+                    {
+                        Label_result_upload.ForeColor = Color.Red;
+                        Label_result_upload.Text = "Informe o e-mail.";
+                        lOk = false;
+                     
+                    }
+
                     if (lOk)
                     {
                         string path = System.Configuration.ConfigurationManager.AppSettings["upload"].ToString();
@@ -145,11 +153,22 @@ namespace empretecos
                         DataSet dsExcel = new DataSet();
                         Adapter.Fill(dsExcel);
                         // For each table in the DataSet, print the row values.
-                        int n;
+                        int n=-1;
                         int nLin = -1;
+                        int col_name =0;
                         foreach (DataTable table in dsExcel.Tables)
                         {
-                           
+
+                            //Localiza a coluna com o primeiro nome 10/06
+
+                            foreach (DataColumn column_nome in table.Columns)
+                            {
+                                n++;
+                                 if (table.Rows[0][column_nome].ToString().IndexOf("1.) Seu primeiro nome") >=0 && table.Columns.IndexOf(column_nome) > 2)
+                                     col_name = n;
+                                    {
+                            } 
+                                                      
                                 foreach (DataColumn column in table.Columns)
                                 {
                                    // processamento do cabeçalho 
@@ -181,7 +200,11 @@ namespace empretecos
                                                 }
                            
                                                 Label_result_upload.Text += " <tr><td>" + row[1].ToString() + "</td><td>" + row[2].ToString() + "</td></tr>";
-                                                pessoas[nLin, 0] = row[0].ToString();
+                                               if (col_name > 0 ){
+                                                pessoas[nLin, 0] = row[col_name].ToString();
+                                               }else{
+                                                pessoas[nLin, 0] = "";
+                                               }
                                                 pessoas[nLin, 1] = row[1].ToString();
                                                 pessoas[nLin, 2] = row[2].ToString();
                                                 pessoas[nLin, 3] = table.Rows[0][column].ToString();
@@ -230,10 +253,153 @@ namespace empretecos
                                     //'From requires an instance of the MailAddress type
                                     MyMailMessage.From = new MailAddress(System.Configuration.ConfigurationManager.AppSettings["mail"].ToString());
                                     //'Create the SMTPClient object and specify the SMTP GMail server
-                                    //MyMailMessage.To.Add("fabio@erpsolutions.com.br");
-                                    MyMailMessage.To.Add(pessoas[nLin, 3]);
-                                    MyMailMessage.Subject = "Empreteco - Pessoas interessadas na sua empresa";
-                                    cHtml = "<table border='1'>";
+                                    if (RadioButtonList_opcao.Items[1].Selected)
+                                    {
+                                        MyMailMessage.To.Add(TextBox_email.Text);
+                                    }
+                                    else
+                                    {
+                                        MyMailMessage.To.Add(pessoas[nx, 3]);
+                                        MyMailMessage.CC.Add("alexandre@prestus.com.br");
+
+                                    }
+                                    //MyMailMessage.To.Add(pessoas[nLin, 3]);
+                                    MyMailMessage.Subject = "TECO: Pessoas interessadas na sua pergunta - Check List de Gestão PME";
+                               
+                                        cHtml = "";
+                                        cHtml += "<html>";
+                                        cHtml += "";
+                                        cHtml += "<head>";
+                                        cHtml += "<meta http-equiv=Content-Type content='text/html; charset=windows-1252'>";
+                                        cHtml += "<meta name=Generator content='Microsoft Word 12 (filtered)'>";
+                                        cHtml += "<style>";
+                                        cHtml += "<!--";
+                                        cHtml += "/* Font Definitions */";
+                                        cHtml += "@font-face";
+                                        cHtml += "{font-family:'Cambria Math'";
+                                        cHtml += "panose-1:2 4 5 3 5 4 6 3 2 4;}";
+                                        cHtml += "@font-face";
+                                        cHtml += "{font-family:Calibri;";
+                                        cHtml += "panose-1:2 15 5 2 2 2 4 3 2 4;}";
+                                        cHtml += "/* Style Definitions */";
+                                        cHtml += "p.MsoNormal, li.MsoNormal, div.MsoNormal";
+                                        cHtml += "{margin-top:0cm;";
+                                        cHtml += "margin-right:0cm;";
+                                        cHtml += "margin-bottom:10.0pt;";
+                                        cHtml += "margin-left:0cm;";
+                                        cHtml += "line-height:115%;";
+                                        cHtml += "font-size:11.0pt;";
+                                        cHtml += "font-family:'Calibri','sans-serif';}";
+                                        cHtml += "p";
+                                        cHtml += "{margin-right:0cm;";
+                                        cHtml += "margin-left:0cm;";
+                                        cHtml += "font-size:12.0pt;";
+                                        cHtml += "font-family:'Times New Roman','serif';}";
+                                        cHtml += "span.apple-converted-space";
+                                        cHtml += "{mso-style-name:apple-converted-space;}";
+                                        cHtml += ".MsoPapDefault";
+                                        cHtml += "{margin-bottom:10.0pt;";
+                                        cHtml += "line-height:115%;}";
+                                        cHtml += "@page WordSection1";
+                                        cHtml += "{size:595.3pt 841.9pt;";
+                                        cHtml += "margin:70.85pt 3.0cm 70.85pt 3.0cm;}";
+                                        cHtml += "div.WordSection1";
+                                        cHtml += "{page:WordSection1;}";
+                                        cHtml += "-->";
+                                        cHtml += "</style>";
+                                        cHtml += "";
+                                        cHtml += "</head>";
+                                        cHtml += "";
+                                        cHtml += "<body lang=PT-BR>";
+                                        cHtml += "";
+                                        cHtml += "<div class=WordSection1>";
+                                        cHtml += "";
+                                        cHtml += "<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:";
+                                        cHtml += "normal;background:white'><span style='color:#1F497D'>Caro Empreteco,</span></p>";
+                                        cHtml += "";
+                                        cHtml += "<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:";
+                                        cHtml += "normal;background:white'><span style='color:#1F497D'>&nbsp;</span></p>";
+                                        cHtml += "";
+                                        cHtml += "<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:";
+                                        cHtml += "normal;background:white'><span style='color:#1F497D'>Acabamos de encerrar uma";
+                                        cHtml += " fase do Check List de Gestão PME, onde as pessoas abaixo responderam SIM à";
+                                        cHtml += " pergunta proposta por você.</span></p>";
+                                        cHtml += "";
+                                        cHtml += "<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:";
+                                        cHtml += "normal;background:white'><span style='color:#1F497D'>Você deve agora fazer";
+                                        cHtml += " contato individual com estes empretecos, e conhecer melhor suas necessidades.</span></p>";
+                                        cHtml += "";
+                                        cHtml += "<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:";
+                                        cHtml += "normal;background:white'><span style='color:#1F497D'>&nbsp;</span></p>";
+                                        cHtml += "";
+                                        cHtml += "<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:";
+                                        cHtml += "normal;background:white'><span style='color:#1F497D'>NÃO deixe de fazer";
+                                        cHtml += " contato, pois de muitos que responderam, estes são os que declaram interesse na";
+                                        cHtml += " melhoria (pergunta) que vc propôs!</span></p>";
+                                        cHtml += "";
+                                        cHtml += "<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:";
+                                        cHtml += "normal;background:white'><span style='color:#1F497D'>Bons negócios!</span></p>";
+                                        cHtml += "";
+                                        cHtml += "<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:";
+                                        cHtml += "normal;background:white'><span style='color:#1F497D'>&nbsp;</span></p>";
+                                        cHtml += "";
+                                        cHtml += "<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:";
+                                        cHtml += "normal;background:white'><b><span style='color:#1F497D'>Grupo de Tecnologia e";
+                                        cHtml += " Inovação (Coruja)</span></b></p>";
+                                        cHtml += "";
+                                        cHtml += "<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:";
+                                        cHtml += "normal;background:white'><span style='color:#1F497D'>TECO</span></p>";
+                                        cHtml += "";
+                                        cHtml += "<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:";
+                                        cHtml += "normal;background:white'><span style='color:#1F497D'>&nbsp;</span></p>";
+                                        cHtml += "";
+                                        cHtml += "<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:";
+                                        cHtml += "normal;background:white'><span style='color:#1F497D'>O Check List de Gestão PME";
+                                        cHtml += " é uma iniciativa realizada em crowdsourcing:</span></p>";
+                                        cHtml += "<ul>";
+                                        cHtml += "<li><p class=MsoNormal style='line-height:normal;background:white'><span";
+                                        cHtml += "style='font-family:Symbol;color:#1F497D'></span><span style='font-size:7.0pt;";
+                                        cHtml += "font-family:'Times New Roman','serif';color:#1F497D'></span><span";
+                                        cHtml += "style='font-size:7.0pt;font-family:'Times New Roman','serif';color:#1F497D'>&nbsp;</span><span";
+                                        cHtml += "style='color:#1F497D'>Idealização: Prestus (Alexandre Borin)</span></p>";
+                                        cHtml += "<br/>";
+                                        cHtml += "<li><p class=MsoNormal style='line-height:normal;background:white'><span";
+                                        cHtml += "style='font-family:Symbol;color:#1F497D'></span><span style='font-size:7.0pt;";
+                                        cHtml += "font-family:'Times New Roman','serif';color:#1F497D'></span><span";
+                                        cHtml += "style='font-size:7.0pt;font-family:'Times New Roman','serif';color:#1F497D'>&nbsp;</span><span";
+                                        cHtml += "style='color:#1F497D'>Desenvolvimento e Fluxo de informações: ERPSolutions";
+                                        cHtml += " (Fabio Ponte / Grupo Coruja)</span></p>";
+                                        cHtml += "<br/>";
+                                        cHtml += "<li><p class=MsoNormal style='line-height:normal;background:white'><span";
+                                        cHtml += "style='font-family:Symbol;color:#1F497D'></span><span style='font-size:7.0pt;";
+                                        cHtml += "font-family:'Times New Roman','serif';color:#1F497D'></span><span";
+                                        cHtml += "style='font-size:7.0pt;font-family:'Times New Roman','serif';color:#1F497D'>&nbsp;</span><span";
+                                        cHtml += "style='color:#1F497D'>Colaboração: LuckInfo (Tania Souza) e Emilia Hiratuka";
+                                        cHtml += " (Grupo Coruja)</span></p>";
+                                        cHtml += "<br/>";
+                                        cHtml += "<li><p class=MsoNormal style='line-height:normal;background:white'><span";
+                                        cHtml += "style='font-family:Symbol;color:#1F497D'></span><span style='font-size:7.0pt;";
+                                        cHtml += "font-family:'Times New Roman','serif';color:#1F497D'></span><span";
+                                        cHtml += "style='font-size:7.0pt;font-family:'Times New Roman','serif';color:#1F497D'>&nbsp;</span><span";
+                                        cHtml += "style='color:#1F497D'>Apoio: Comitê TECO</span></p>";
+                                        cHtml += "<br/>";
+                                        cHtml += "<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:";
+                                        cHtml += "normal;background:white'><span style='color:#1F497D'>&nbsp;</span></p>";
+                                        cHtml += "</ul>";
+                                        cHtml += "<p class=MsoNormal style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:";
+                                        cHtml += "normal;background:white'><span style='color:#1F497D'>=======</span></p>";
+                                        cHtml += "";
+                                        cHtml += "<p class=MsoNormal>&nbsp;</p>";
+                                        cHtml += "";
+                                        cHtml += "</div>";
+                                        cHtml += "";
+                                        cHtml += "</body>";
+                                        cHtml += "";
+                                    cHtml += "</html>";
+                                    cHtml += "<table border='1'>";
+
+                                  
+
                                     cHtml = cHtml + "<tr><td>e-mail</td><td>Telefone</td></tr>";
                                     cEmpreteco = pessoas[nx, 3];
                                       

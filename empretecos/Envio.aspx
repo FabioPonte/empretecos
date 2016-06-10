@@ -4,8 +4,18 @@
 <asp:Content ID="Content_envio_2" ContentPlaceHolderID="erContentPlaceHolder1" runat="server">
     <br />
 <div align="center">
-</asp:Label><asp:FileUpload ID="FileUploadControl" runat="server"    /></div>
+<asp:FileUpload ID="FileUploadControl" runat="server"    /></div>
 <br />
+    <div align="center">    <asp:RadioButtonList ID="RadioButtonList_opcao" runat="server">
+        <asp:ListItem Value="todos">Enviar e-mail para todos</asp:ListItem>
+        <asp:ListItem Value="abaixo" Selected="True">Enviar para e-mail abaixo</asp:ListItem>
+           </asp:RadioButtonList></div>
+           <br />
+
+    <div align="center"><asp:Label ID="Label_email" runat="server" Text="e-mail.:"></asp:Label>
+ <asp:TextBox ID="TextBox_email" runat="server" Width="300px"></asp:TextBox></div>
+    <br />
+
   <div align="center">  <asp:Button ID="Button_upload" runat="server" Text="Upload" 
           onclick="Button_upload_Click" /> </div>
           <br />
